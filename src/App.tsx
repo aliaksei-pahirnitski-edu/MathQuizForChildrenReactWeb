@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import QuestionCard from './screens/QuestionScreen';
+//import QuestionCard from './Screens/QuestionScreen';
 import Test from './Components/QuizTest';
 
 
@@ -9,8 +9,8 @@ function App() {
     <div className="App">
       <Test></Test>
 
-<br/>
-      <QuestionCard></QuestionCard>
+      <br />
+      {/* <QuestionCard></QuestionCard> */}
     </div>
   );
 }

@@ -1,19 +1,16 @@
 import React from 'react';
-// import {AdditionIllustrator, SubtractionIllustrator} from './Illustrators'
-import AdditionIllustrator from './Illustrators/AdditionIllustrator'
+import { AdditionIllustrator, SubtractionIllustrator } from './Illustrators'
+import { getRandomQuestion } from './../Services/Randomizer'
 
 const QuizTest = () => {
-    let randomOp = '+';
-    let randomA = 3;
-    let randomB = 4;
-    let result = 7;
-    //let Illustrator = AdditionIllustrator;
+    let randomQuestion = getRandomQuestion(5);
+    let Illustrator = randomQuestion.Operation === '+' ? AdditionIllustrator : SubtractionIllustrator;
     return <div>
-        <i>{randomA}</i> + <i>{randomB}</i>
-        <hr/>
-        <AdditionIllustrator a={randomA} b={randomB} />
+        <i>{randomQuestion.OperandA}</i> {randomQuestion.Operation} <i>{randomQuestion.OperandB}</i>
         <hr />
-        = {result}
+        <Illustrator a={randomQuestion.OperandA} b={randomQuestion.OperandB} />
+        <hr />
+        = {randomQuestion.Result}
         <hr />
         <button> Next Quiz</button>
     </div>
