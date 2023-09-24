@@ -11,7 +11,7 @@ function App() {
       <Test></Test>
 
       <br />
-      {/* <QuestionCard></QuestionCard> */}
+      {/*  */} <QuestionCard></QuestionCard>
 
       Settings: <SettingsScreen />
     </div>
