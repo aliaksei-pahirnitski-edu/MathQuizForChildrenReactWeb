@@ -12,7 +12,7 @@ export function getRandomOperation() {
 }
 
 
-export function getRandomQuestion(limit: number = 4): TQuestion {
+export function getRandomQuestion(limit: number = 10): TQuestion {
     let op = getRandomOperation();
     let a = getRandomInt(limit);
     let b = getRandomInt(limit);

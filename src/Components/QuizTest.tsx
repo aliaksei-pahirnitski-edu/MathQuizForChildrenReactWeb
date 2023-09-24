@@ -3,7 +3,7 @@ import { AdditionIllustrator, SubtractionIllustrator } from './Illustrators'
 import { getRandomQuestion } from './../Services/Randomizer'
 
 const QuizTest = () => {
-    let randomQuestion = getRandomQuestion(5);
+    let randomQuestion = getRandomQuestion(6);
     let Illustrator = randomQuestion.Operation === '+' ? AdditionIllustrator : SubtractionIllustrator;
     return <div>
         <i>{randomQuestion.OperandA}</i> {randomQuestion.Operation} <i>{randomQuestion.OperandB}</i>
