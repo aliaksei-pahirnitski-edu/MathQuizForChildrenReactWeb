@@ -5,7 +5,14 @@ import SettingsScreen from "./Screens/SettingsScreen";
 import Quiz from "./Components/QuizTest";
 
 function App() {
-  return <div className="App">Start adding layout with bootstrap</div>;
+  return (
+    <div className="App">
+      <Quiz></Quiz>
+      <br />
+      {/*  */} <QuestionCard></QuestionCard>
+      Settings: <SettingsScreen />
+    </div>
+  );
 }
 
 export default App;
