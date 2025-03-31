@@ -15,7 +15,7 @@ function App() {
       <Container fluid>
         <Row className="justify-content-center">
           <Col xl="4" lg="6" md="8" xs="10" className="mt-3">
-            <Stack gap={4} className="silver outer-border">
+            <Stack gap={4} className="outer-box outer-border">
               <div className="m-2 p-2 orange inner-border">
                 <h2>Привет Максим!</h2>
               </div>
