@@ -47,6 +47,7 @@ function App() {
             <VariantButton
               mode={answer.mode}
               variant={variant}
+              key={variant}
               checkAnswerHandler={fnCheckAnswer}
               answer={answer.mode == SHOWING_ANSWER ? answer.answer : -1}
               correctAnswer={question.Result}
