@@ -7,7 +7,7 @@ import Quiz from "./Components/QuizTest";
 function App() {
   return (
     <div className="App">
-      <Quiz></Quiz>
+      {/* <Quiz></Quiz>*/}
       <br />
       {/*  */} <QuestionCard></QuestionCard>
       Settings: <SettingsScreen />

@@ -40,6 +40,9 @@
 .pink {
   background-color: pink;
 }
+.question-area {
+  background-color: light-blue;
+}
 .orange {
   background-color: orange;
 }
@@ -61,4 +64,8 @@
 .inner-border {
   border: 1px solid black;
   border-radius: 0.5em;
+}
+
+.answer-button {
+  min-width: 1em;
 }
