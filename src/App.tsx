@@ -41,7 +41,7 @@ function App() {
         <Quiz randomQuestion={question} />
       </div>
 
-      <div className="m-2 p-2 pink inner-border">
+      <div className="m-2 p-2 answers-area inner-border">
         <Stack direction="horizontal" gap={2}>
           {question.Variants.map((variant) => (
             <VariantButton
@@ -59,7 +59,7 @@ function App() {
           Ещё!
         </Button>
       )}
-      <div className="m-2 p-2 pink inner-border">
+      <div className="m-2 p-2 summary-area inner-border">
         <h5>
           Решено {solvedCorrectCount} задач из {solvedCorrectCount + solvedCWrongCount}
         </h5>

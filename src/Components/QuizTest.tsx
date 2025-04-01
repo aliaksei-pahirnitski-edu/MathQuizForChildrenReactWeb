@@ -7,7 +7,7 @@ const Quiz = ({ randomQuestion }: { randomQuestion: TQuestion }) => {
   let Illustrator = randomQuestion.Operation === "+" ? AdditionIllustrator : SubtractionIllustrator;
   return (
     <h2>
-      <i>{randomQuestion.OperandA}</i> {randomQuestion.Operation} <i>{randomQuestion.OperandB}</i>
+      <i>{randomQuestion.OperandA}</i> {randomQuestion.Operation} <i>{randomQuestion.OperandB}</i> =
       {/*
       <hr />
       <Illustrator a={randomQuestion.OperandA} b={randomQuestion.OperandB} />

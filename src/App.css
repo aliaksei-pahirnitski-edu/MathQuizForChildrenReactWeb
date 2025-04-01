@@ -41,7 +41,12 @@
   background-color: pink;
 }
 .question-area {
-  background-color: light-blue;
+  background-color: lightblue;
+}
+.answers-area {
+}
+.summary-area {
+  background-color: lightsalmon;
 }
 .orange {
   background-color: orange;
