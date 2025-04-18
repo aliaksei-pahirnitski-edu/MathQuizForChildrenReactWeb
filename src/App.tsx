@@ -10,10 +10,10 @@ import Quiz from "./Components/QuizTest";
 import VariantButton, { VariantButtonProps } from "./Components/VariantButton";
 import { ASKING, SHOWING_ANSWER, TAnswerState } from "./Models/AnswerMode";
 
-const level: number = 12;
+const LEVEL: number = 30;
 
 function App() {
-  const [question, setQuestion] = useState(() => getRandomQuestionWithVariants(level));
+  const [question, setQuestion] = useState(() => getRandomQuestionWithVariants(LEVEL));
   const [answer, setAnswer] = useState<TAnswerState>({ mode: ASKING });
   const [solvedCorrectCount, setCorrectCount] = useState(0);
   const [solvedCWrongCount, setWrongCount] = useState(0);
@@ -29,7 +29,7 @@ function App() {
 
   function fnNextQuiz() {
     setAnswer({ mode: ASKING });
-    setQuestion(getRandomQuestionWithVariants(level));
+    setQuestion(getRandomQuestionWithVariants(LEVEL));
   }
 
   return (
