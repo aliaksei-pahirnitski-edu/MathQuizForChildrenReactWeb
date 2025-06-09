@@ -12,6 +12,22 @@ import { ASKING, SHOWING_ANSWER, TAnswerState } from "./Models/AnswerMode";
 
 const LEVEL: number = 30;
 
+function getNameFromQueryString(){
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const name = params.get('name');    
+  return params.has("name") ? name : "Максим";
+}
+
+function getStartingLevelFromQueryString(){
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const startingLevel = params.get('level');    
+  return params.has("startingLevel") && startingLevel != null ? +startingLevel : 1;
+}
+
+const playerName = getNameFromQueryString();
+
 function App() {
   const [question, setQuestion] = useState(() => getRandomQuestionWithVariants(LEVEL));
   const [answer, setAnswer] = useState<TAnswerState>({ mode: ASKING });
@@ -35,7 +51,7 @@ function App() {
   return (
     <Layout>
       <div className="m-2 p-2 orange inner-border">
-        <h3>Привет Максим!</h3>
+        <h3>Привет {playerName}!</h3>
       </div>
       <div className="m-2 p-2 question-area inner-border">
         <Quiz randomQuestion={question} />
@@ -49,7 +65,7 @@ function App() {
               variant={variant}
               key={variant}
               checkAnswerHandler={fnCheckAnswer}
-              answer={answer.mode == SHOWING_ANSWER ? answer.answer : -1}
+              answer={answer.mode === SHOWING_ANSWER ? answer.answer : -1}
               correctAnswer={question.Result}
             />
           ))}
