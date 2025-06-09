@@ -2,26 +2,29 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
+
 import Layout from "./Layout";
 import { getRandomQuestionWithVariants, getLevelLimit } from "./Services/Randomizer";
 import Quiz from "./Components/QuizTest";
 import VariantButton from "./Components/VariantButton";
 import { ASKING, SHOWING_ANSWER, TAnswerState } from "./Models/AnswerMode";
 
-function getNameFromQueryString(){
+function getNameFromQueryString() {
   const search = window.location.search;
   const params = new URLSearchParams(search);
-  const name = params.get('name');    
+  const name = params.get("name");
   return params.has("name") ? name : "Максим";
 }
 
 // level: levelIndex -> levelLimit (1 -> 9, 2 -> 12, .. n+1 -> v(n)* 1.4 ..)
-function getStartingLevelIndexFromQueryString() : number {
+function getStartingLevelIndexFromQueryString(): number {
   const search = window.location.search;
   const params = new URLSearchParams(search);
-  const startingLevel = params.get('level'); 
-  
-  return ((startingLevel != null) && +startingLevel) || 2;
+  const startingLevel = params.get("level");
+
+  return (startingLevel != null && +startingLevel) || 2;
 }
 
 const playerName = getNameFromQueryString();
@@ -33,10 +36,14 @@ function App() {
   const [answer, setAnswer] = useState<TAnswerState>({ mode: ASKING });
   const [solvedCorrectCount, setCorrectCount] = useState(0);
   const [solvedCWrongCount, setWrongCount] = useState(0);
-  const levelAdd = Math.floor(solvedCorrectCount / 5);
-  useEffect(function(){
-    setLevelIndex(startingLevel + levelAdd)
-  }, [levelAdd] )
+
+  const [showLevelToast, setShowLevelToast] = useState(false);
+  useEffect(
+    function () {
+      setShowLevelToast(levelIndex > startingLevel);
+    },
+    [levelIndex]
+  );
 
   const fnCheckAnswer = (answer: number) => {
     setAnswer({ mode: SHOWING_ANSWER, answer });
@@ -48,6 +55,9 @@ function App() {
   };
 
   function fnNextQuiz() {
+    const levelAdd = Math.floor(solvedCorrectCount / 5);
+    setLevelIndex(startingLevel + levelAdd);
+
     setAnswer({ mode: ASKING });
     setQuestion(getRandomQuestionWithVariants(getLevelLimit(levelIndex)));
   }
@@ -75,6 +85,7 @@ function App() {
           ))}
         </Stack>
       </div>
+
       {answer.mode === SHOWING_ANSWER && (
         <Button variant="success" className="m-2 p-2" onClick={fnNextQuiz}>
           Ещё!
@@ -83,9 +94,21 @@ function App() {
       <div className="m-2 p-2 summary-area inner-border">
         <h5>
           Решено {solvedCorrectCount} задач из {solvedCorrectCount + solvedCWrongCount}
-          <br/> Level {levelIndex}
+          {/* <br /> Level {levelIndex} */}
         </h5>
       </div>
+
+      <ToastContainer className="p-3" position="top-center" style={{ zIndex: 1 }}>
+        <Toast onClose={() => setShowLevelToast(false)} show={showLevelToast} delay={3000} autohide>
+          <Toast.Header>
+            <strong className="me-auto">Next Level!</strong>
+          </Toast.Header>
+          <Toast.Body>
+            <h1>Level {levelIndex} </h1>
+            <small>Level limit: {getLevelLimit(levelIndex)} </small>
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
     </Layout>
   );
 }
