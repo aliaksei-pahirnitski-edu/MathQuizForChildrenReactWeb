@@ -45,3 +45,13 @@ export function getRandomQuestionWithVariants(limit: number = 10): TQuestionWith
   const variants = getRandomVariants(question.Result);
   return { Variants: variants, ...question };
 }
+
+const levelLimits = [5, 9, 13]; // level: levelIndex -> levelLimit (1 -> 9, 2 -> 13, .. n+1 -> v(n)* 1.3 ..)
+export function getLevelLimit(levelIndex: number): number {
+  switch(true){
+    case levelIndex <= 0: return levelLimits[0];
+    case levelIndex < levelLimits.length: return levelLimits[levelIndex];
+    case levelIndex < 100: return Math.round(1.3 * getLevelLimit(levelIndex - 1));
+    default: return 10;
+  }
+}
