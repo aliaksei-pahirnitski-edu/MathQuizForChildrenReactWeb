@@ -24,7 +24,7 @@ function getStartingLevelIndexFromQueryString(): number {
   const params = new URLSearchParams(search);
   const startingLevel = params.get("level");
 
-  return (startingLevel != null && +startingLevel) || 2;
+  return (startingLevel != null && +startingLevel) || 0;
 }
 
 const playerName = getNameFromQueryString();
