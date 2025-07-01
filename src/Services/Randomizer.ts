@@ -1,4 +1,4 @@
-import { AllOperations } from "./../Models/TOperation";
+import type { TOp } from "../Models/TOperation";
 import { TQuestion, TQuestionWithVariants } from "./../Models/QuestionModel";
 
 function getRandomInt(max: number) {
@@ -6,9 +6,11 @@ function getRandomInt(max: number) {
 }
 
 export function getRandomOperation() {
-  let max = AllOperations.length;
+  // different operations with different frequences
+  const allOpsProbabilities: TOp[] = ["+", "+", "+", "+", "-", "-", "-", "*", "*"];
+  const max = allOpsProbabilities.length;
   let randomIndex = Math.floor(Math.random() * max);
-  return AllOperations[randomIndex];
+  return allOpsProbabilities[randomIndex];
 }
 
 export function getRandomVariants(answer: number): number[] {
@@ -26,7 +28,10 @@ export function getRandomVariants(answer: number): number[] {
 }
 
 export function getRandomQuestion(limit: number = 10): TQuestion {
-  let op = getRandomOperation();
+  const op = getRandomOperation();
+  if (op === "*") {
+    limit = Math.ceil(Math.sqrt(limit)) + 2;
+  }
   let a = getRandomInt(limit);
   let b = getRandomInt(limit);
   switch (op) {
@@ -34,6 +39,8 @@ export function getRandomQuestion(limit: number = 10): TQuestion {
       return { OperandA: a, OperandB: b, Operation: op, Result: a + b };
     case "-":
       return { OperandA: a + b, OperandB: a, Operation: op, Result: b };
+    case "*":
+      return { OperandA: a, OperandB: b, Operation: op, Result: a * b };
     default:
       console.warn(`Operation ${op} not supported`);
       return { OperandA: a, OperandB: b, Operation: op, Result: 0 };
@@ -46,12 +53,16 @@ export function getRandomQuestionWithVariants(limit: number = 10): TQuestionWith
   return { Variants: variants, ...question };
 }
 
-const levelLimits = [5, 9, 13]; // level: levelIndex -> levelLimit (1 -> 9, 2 -> 13, .. n+1 -> v(n)* 1.3 ..)
+const levelLimits = [7, 9, 12]; // level: levelIndex -> levelLimit (1 -> 9, 2 -> 13, .. n+1 -> v(n)* 1.3 ..)
 export function getLevelLimit(levelIndex: number): number {
-  switch(true){
-    case levelIndex <= 0: return levelLimits[0];
-    case levelIndex < levelLimits.length: return levelLimits[levelIndex];
-    case levelIndex < 100: return Math.round(1.3 * getLevelLimit(levelIndex - 1));
-    default: return 10;
+  switch (true) {
+    case levelIndex <= 0:
+      return levelLimits[0];
+    case levelIndex < levelLimits.length:
+      return levelLimits[levelIndex];
+    case levelIndex < 100:
+      return Math.round(1.25 * getLevelLimit(levelIndex - 1));
+    default:
+      return 10;
   }
 }

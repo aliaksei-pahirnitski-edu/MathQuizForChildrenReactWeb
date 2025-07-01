@@ -1,4 +1,4 @@
-export type TOp = '+' | '-';
+export type TOp = "+" | "-" | "*";
 
-let AllOperations: TOp[] = ['+', '-'];
+let AllOperations: TOp[] = ["+", "-", "*"];
 export { AllOperations };
