@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
@@ -8,6 +8,7 @@ import ToastContainer from "react-bootstrap/ToastContainer";
 import Layout from "./Layout";
 import { getRandomQuestionWithVariants, getLevelLimit } from "./Services/Randomizer";
 import Quiz from "./Components/QuizTest";
+import Timer, { formatSeconds } from "./Components/Timer";
 import VariantButton from "./Components/VariantButton";
 import { ASKING, SHOWING_ANSWER, TAnswerState } from "./Models/AnswerMode";
 
@@ -36,6 +37,8 @@ function App() {
   const [answer, setAnswer] = useState<TAnswerState>({ mode: ASKING });
   const [solvedCorrectCount, setCorrectCount] = useState(0);
   const [solvedCWrongCount, setWrongCount] = useState(0);
+  const timerRef = useRef("00:00");
+  const [lastFormattedElapsed, setLastFormattedElapsed] = useState("00:00");
 
   const [showLevelToast, setShowLevelToast] = useState(false);
   useEffect(
@@ -52,6 +55,7 @@ function App() {
     } else {
       setWrongCount((x) => x + 1);
     }
+    setLastFormattedElapsed(timerRef.current);
   };
 
   function fnNextQuiz() {
@@ -60,6 +64,10 @@ function App() {
 
     setAnswer({ mode: ASKING });
     setQuestion(getRandomQuestionWithVariants(getLevelLimit(levelIndex)));
+  }
+
+  function fnInformElapsedSeconds(elapsedSeconds: number) {
+    timerRef.current = formatSeconds(elapsedSeconds);
   }
 
   return (
@@ -93,8 +101,11 @@ function App() {
       )}
       <div className="m-2 p-2 summary-area inner-border">
         <h5>
-          Решено {solvedCorrectCount} задач из {solvedCorrectCount + solvedCWrongCount}
+          Решено {solvedCorrectCount} задач из {solvedCorrectCount + solvedCWrongCount} за {lastFormattedElapsed}
           {/* <br /> Level {levelIndex} */}
+        </h5>
+        <h5>
+          Время: <Timer informElapsedSeconds={fnInformElapsedSeconds} />
         </h5>
       </div>
 

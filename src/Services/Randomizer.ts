@@ -30,16 +30,17 @@ export function getRandomVariants(answer: number): number[] {
 
 export function getRandomQuestion(limit: number = 10): TQuestion {
   const op = getRandomOperation();
+  // new feature: avoid too small operand for complex level
+  let minOperand = Math.floor(limit / 4);
+
   if (op === "*" || op === ":") {
+    minOperand = limit <= 17 ? 1 : 2;
     limit = Math.ceil(Math.sqrt(limit)) + 1;
   } else if (op === "+" || op === "-") {
     limit = (2 * limit) / 3;
   }
-  let a = getRandomInt(limit);
-  let b = getRandomInt(limit);
-  // decided exclude 0
-  a = a + 1;
-  b = b + 1;
+  let a = minOperand + getRandomInt(limit - minOperand);
+  let b = minOperand + getRandomInt(limit - minOperand);
 
   switch (op) {
     case "+":
