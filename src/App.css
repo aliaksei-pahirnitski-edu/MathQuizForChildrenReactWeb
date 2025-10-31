@@ -74,3 +74,8 @@
 .answer-button {
   min-width: 1em;
 }
+
+.flex {
+  display: flex;
+  justify-content: center;
+}

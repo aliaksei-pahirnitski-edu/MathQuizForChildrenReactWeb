@@ -108,16 +108,17 @@ export function getRandomQuestionWithVariants(limit: number = 10): TQuestionWith
   return { Variants: variants, ...question };
 }
 
-const levelLimits = [11, 15]; // level: levelIndex -> levelLimit (1 -> 11, 2 -> 15, .. n+1 -> v(n)* 1.3 ..)
+// by default stating level=1
+const levelLimits = [9, 11, 15]; // level: levelIndex -> levelLimit (0 -> 9, 1 -> 11, 2 -> 15, .. n+1 -> v(n)* 1.3 ..)
 export function getLevelLimit(levelIndex: number): number {
   switch (true) {
     case levelIndex <= 0:
       return levelLimits[0];
     case levelIndex < levelLimits.length:
       return levelLimits[levelIndex];
-    case levelIndex < 100:
+    case levelIndex < 50:
       return Math.round(1.15 * getLevelLimit(levelIndex - 1));
     default:
-      return 10;
+      return getLevelLimit(50);
   }
 }

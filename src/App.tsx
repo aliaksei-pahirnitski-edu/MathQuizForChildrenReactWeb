@@ -25,7 +25,7 @@ function getStartingLevelIndexFromQueryString(): number {
   const params = new URLSearchParams(search);
   const startingLevel = params.get("level");
 
-  return (startingLevel != null && +startingLevel) || 0;
+  return (startingLevel != null && +startingLevel) || 1;
 }
 
 const playerName = getNameFromQueryString();
@@ -72,6 +72,12 @@ function App() {
 
   return (
     <Layout>
+      <div className="m-2 p-2 summary-area inner-border flex">
+        <div className="me-auto">Level {levelIndex}</div>
+        <div className="ms-auto">
+          Время: <Timer informElapsedSeconds={fnInformElapsedSeconds} />
+        </div>
+      </div>
       <div className="m-2 p-2 orange inner-border">
         <h3>Привет {playerName}!</h3>
       </div>
@@ -101,11 +107,7 @@ function App() {
       )}
       <div className="m-2 p-2 summary-area inner-border">
         <h5>
-          Решено {solvedCorrectCount} задач из {solvedCorrectCount + solvedCWrongCount} за {lastFormattedElapsed}
-          {/* <br /> Level {levelIndex} */}
-        </h5>
-        <h5>
-          Время: <Timer informElapsedSeconds={fnInformElapsedSeconds} />
+          Решено {solvedCorrectCount} из {solvedCorrectCount + solvedCWrongCount} за {lastFormattedElapsed}
         </h5>
       </div>
 
