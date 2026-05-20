@@ -27,12 +27,12 @@ function Layout(props: { children: ReactNode }) {
 
   function generateListQuizes() {
     const NperLevel = 5;
-    const NLevels = 9;
-    const initialLevel = 1;
-    const splitBy = 15;
+    const NLevels = 8;
+    const initialLevel = 3;
+    const splitBy = 10;
     const arrQuizes: string[] = new Array(NperLevel * NLevels + (NperLevel * NLevels) / splitBy);
     let quizGlobalNum = 0;
-    for (let level = initialLevel; level <= NLevels; level++) {
+    for (let level = initialLevel; level < initialLevel + NLevels; level++) {
       const levelLimit = getLevelLimit(level);
       for (let numInLevel = 1; numInLevel <= NperLevel; numInLevel++) {
         // const quizGlobalNum = (level - 1) * NperLevel + numInLevel - 1;
@@ -40,7 +40,7 @@ function Layout(props: { children: ReactNode }) {
         arrQuizes[quizGlobalNum] = displayFormula(quiz);
         quizGlobalNum++;
 
-        if (((level - 1) * NperLevel + numInLevel - 1) % splitBy == splitBy - 1) {
+        if (((level - initialLevel) * NperLevel + numInLevel - 1) % splitBy == splitBy - 1) {
           arrQuizes[quizGlobalNum] = "================";
           quizGlobalNum++;
         }
@@ -79,7 +79,7 @@ function Layout(props: { children: ReactNode }) {
             <strong className="me-auto">Settings</strong>
           </Toast.Header>
           <Toast.Body>
-            <small>Random 45 quizes</small>
+            <small>Random 40 quizes</small>
             <Form.Control as="textarea" rows={17} aria-label="With textarea" value={listQuizes} readOnly />
           </Toast.Body>
         </Toast>

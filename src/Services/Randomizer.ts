@@ -8,7 +8,7 @@ function getRandomInt(max: number) {
 
 export function getRandomOperation() {
   // different operations with different frequences
-  const allOpsProbabilities: TOp[] = ["+", "+", "+", "+", "-", "-", "-", "*", "*", ":", ":", "formula", "formula", "formula", "formula"];
+  const allOpsProbabilities: TOp[] = ["+", "+", "+", "-", "-", "-", "*", "*", "*", ":", ":", ":", "formula", "formula", "formula", "formula"];
   const max = allOpsProbabilities.length;
   let randomIndex = Math.floor(Math.random() * max);
   return allOpsProbabilities[randomIndex];
@@ -109,7 +109,7 @@ export function getRandomQuestionWithVariants(limit: number = 10): TQuestionWith
 }
 
 // by default stating level=1
-const levelLimits = [9, 11, 15]; // level: levelIndex -> levelLimit (0 -> 9, 1 -> 11, 2 -> 15, .. n+1 -> v(n)* 1.3 ..)
+const levelLimits = [11, 16]; // level: levelIndex -> levelLimit (0 -> 9, 1 -> 11, 2 -> 15, .. n+1 -> v(n)* 1.3 ..)
 export function getLevelLimit(levelIndex: number): number {
   switch (true) {
     case levelIndex <= 0:
@@ -117,7 +117,7 @@ export function getLevelLimit(levelIndex: number): number {
     case levelIndex < levelLimits.length:
       return levelLimits[levelIndex];
     case levelIndex < 50:
-      return Math.round(1.15 * getLevelLimit(levelIndex - 1));
+      return Math.round(1.25 * getLevelLimit(levelIndex - 1));
     default:
       return getLevelLimit(50);
   }
