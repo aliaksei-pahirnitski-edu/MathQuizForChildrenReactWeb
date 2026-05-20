@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
+import { useLocalStorage } from "@reactuses/core";
 
 import Layout from "./Layout";
 import { getRandomQuestionWithVariants, getLevelLimit } from "./Services/Randomizer";
@@ -11,6 +12,7 @@ import Quiz from "./Components/QuizTest";
 import Timer, { formatSeconds } from "./Components/Timer";
 import VariantButton from "./Components/VariantButton";
 import { ASKING, SHOWING_ANSWER, TAnswerState } from "./Models/AnswerMode";
+import { displayFormula, TQuestion } from "./Models/QuestionModel";
 
 function getNameFromQueryString() {
   const search = window.location.search;
@@ -39,8 +41,9 @@ function App() {
   const [solvedCWrongCount, setWrongCount] = useState(0);
   const timerRef = useRef("00:00");
   const [lastFormattedElapsed, setLastFormattedElapsed] = useState("00:00");
-
   const [showLevelToast, setShowLevelToast] = useState(false);
+  const [wrongAnswersQuestions, setWrongAnswerQuestion] = useLocalStorage<string[]>("WRONG_ANSWERS", []);
+
   useEffect(
     function () {
       setShowLevelToast(levelIndex > startingLevel);
@@ -54,6 +57,15 @@ function App() {
       setCorrectCount((x) => x + 1);
     } else {
       setWrongCount((x) => x + 1);
+      // set last 5 questions with wrong answers
+      const N_QUESTIONS_WITH_WRONG_ANSWERS = 5;
+      if (wrongAnswersQuestions == null) {
+        setWrongAnswerQuestion([displayFormula(question)]);
+      } else if (wrongAnswersQuestions.length < N_QUESTIONS_WITH_WRONG_ANSWERS) {
+        setWrongAnswerQuestion([displayFormula(question), ...wrongAnswersQuestions]);
+      } else {
+        setWrongAnswerQuestion([displayFormula(question), ...wrongAnswersQuestions.slice(0, N_QUESTIONS_WITH_WRONG_ANSWERS - 1)]);
+      }
     }
     setLastFormattedElapsed(timerRef.current);
   };

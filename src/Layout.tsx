@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ReactNode } from "react";
+import { useLocalStorage } from "@reactuses/core";
+
 import "./App.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -14,6 +16,8 @@ import { displayFormula } from "./Models/QuestionModel";
 function Layout(props: { children: ReactNode }) {
   const [showToast, setShowToast] = useState(false);
   const [listQuizes, setListQuizes] = useState("");
+  const [wrongAnswersQuestions] = useLocalStorage<string[]>("WRONG_ANSWERS", []);
+
   useEffect(() => {
     if (listQuizes != "") {
       navigator.clipboard.writeText(listQuizes).catch();
@@ -47,8 +51,14 @@ function Layout(props: { children: ReactNode }) {
       }
     }
     const strAllQuizes = arrQuizes.join(" = \n");
-    setListQuizes(strAllQuizes);
-    console.log(strAllQuizes);
+
+    // add also previous questions where was error
+    if (wrongAnswersQuestions != null && wrongAnswersQuestions.length > 0) {
+      const strWithErrors = "WRONG: [\n" + wrongAnswersQuestions.join(" =\n") + "= \n]\n\n" + strAllQuizes;
+      setListQuizes(strWithErrors);
+    } else {
+      setListQuizes(strAllQuizes);
+    }
   }
 
   return (
